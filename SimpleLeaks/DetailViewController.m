@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "SHTimer.h"
+#import "LeakTableView.h"
 
 @interface DetailViewController ()
 {
@@ -23,6 +24,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self leakForTimer];
+    
+    [self addTableView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -73,6 +76,12 @@
 
 
 
+#pragma subView
+
+- (void)addTableView{
+    LeakTableView *table = [[LeakTableView alloc] initWithFrame:CGRectMake(0, 0, 100, 100) style:UITableViewStylePlain];
+    [self.view addSubview:table];
+}
 
 -(void)dealloc{
     NSLog(@" dealloc ");

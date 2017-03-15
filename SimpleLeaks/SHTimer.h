@@ -10,7 +10,7 @@
 
 @interface SHTimer : NSObject
 
-+ (SHTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)timeInterval target:(nonnull id)aTarget selector:(nonnull SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;
++ (nullable SHTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)timeInterval target:(nonnull id)aTarget selector:(nonnull SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;
 
 
 

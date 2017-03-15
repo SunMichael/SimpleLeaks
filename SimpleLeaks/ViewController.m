@@ -28,6 +28,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"notic" object:nil];
+}
 
 - (IBAction)clickedDetailBtn:(id)sender {
     DetailViewController *detailVc = [[DetailViewController alloc] init];
