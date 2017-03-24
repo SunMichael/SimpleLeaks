@@ -27,7 +27,7 @@
         
         status = @"world";
         __weak LeakTableView *copySelf = self;
-        //对于self持有的Block  不能引用全局变量 ，如果只是block里面引用全局变量  self不持有则没问题
+        //对于self持有的Block（存着赋值关系？）  不能引用全局变量 ，如果只是block里面引用全局变量  self不持有则没问题
         
         //1     //能dealloc
         void(^blockName)() = ^() {
