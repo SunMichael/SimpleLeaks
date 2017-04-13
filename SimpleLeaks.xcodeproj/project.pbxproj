@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04307E031E9F7F3E00F29082 /* KVOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04307E021E9F7F3E00F29082 /* KVOModel.m */; };
 		04670E011E78E49000AFB5E5 /* LeakTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04670E001E78E49000AFB5E5 /* LeakTableView.m */; };
 		047413531E69179F00DBDEF9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047413521E69179F00DBDEF9 /* main.m */; };
 		047413561E69179F00DBDEF9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 047413551E69179F00DBDEF9 /* AppDelegate.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04307E011E9F7F3E00F29082 /* KVOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOModel.h; sourceTree = "<group>"; };
+		04307E021E9F7F3E00F29082 /* KVOModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVOModel.m; sourceTree = "<group>"; };
 		04670DFF1E78E49000AFB5E5 /* LeakTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeakTableView.h; sourceTree = "<group>"; };
 		04670E001E78E49000AFB5E5 /* LeakTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeakTableView.m; sourceTree = "<group>"; };
 		0474134E1E69179E00DBDEF9 /* SimpleLeaks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleLeaks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +80,8 @@
 				0474136C1E69349F00DBDEF9 /* SHTimer.m */,
 				04670DFF1E78E49000AFB5E5 /* LeakTableView.h */,
 				04670E001E78E49000AFB5E5 /* LeakTableView.m */,
+				04307E011E9F7F3E00F29082 /* KVOModel.h */,
+				04307E021E9F7F3E00F29082 /* KVOModel.m */,
 				0474135A1E6917A100DBDEF9 /* Main.storyboard */,
 				0474135D1E6917A200DBDEF9 /* Assets.xcassets */,
 				0474135F1E6917A200DBDEF9 /* LaunchScreen.storyboard */,
@@ -165,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04307E031E9F7F3E00F29082 /* KVOModel.m in Sources */,
 				047413591E6917A000DBDEF9 /* ViewController.m in Sources */,
 				047413561E69179F00DBDEF9 /* AppDelegate.m in Sources */,
 				0474136D1E69349F00DBDEF9 /* SHTimer.m in Sources */,
