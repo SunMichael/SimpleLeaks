@@ -48,16 +48,17 @@ int number = 1;
 
 - (void)testBlock{
 //    __block NSString *string = @"abc";        //没有block修饰的变量  block会在声明的时候捕捉它的值
-    __block int number2 = 10;
+     int number2 = 10;
     void(^blk)(NSString *) = ^(NSString *str){
-        number = 3;
-        number2 = 20;
-        NSLog(@" print %@   number %d",string,number2);
+//        number = 3;
+//        number2 = 20;
+        NSLog(@" print %@   number %d",string,number);
     };
     number2 = 30;
     string = @"xyz";
     number = 2;
     blk(string);
+    NSLog(@" %d", number2);
 }
 
 
