@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self leakForTimer];
@@ -36,29 +36,58 @@
         sleep(1);
         NSLog(@" 123 ");
     };
-//    dispatch_block_cancel(block);
+    block();
+    //    dispatch_block_cancel(block);    //cancel block有效
     
-//    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));
-//    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
-//    dispatch_source_set_event_handler(timer, ^{
-//        
-//    });
-//    dispatch_resume(timer);
-//    dispatch_source_cancel(timer);
+    //    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));
+    //    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
+    //    dispatch_source_set_event_handler(timer, ^{
+    //
+    //    });
+    //    dispatch_resume(timer);
+    //    dispatch_source_cancel(timer);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doSomething) name:@"notic" object:nil];
+    
+//    __weak DetailViewController *weakSelf = self;
+    //    _testBlock = ^(NSInteger index){
+    //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //            [weakSelf doSomething2];
+    //        });
+    //    };
+    //    _testBlock(1);
+    
+    KVOModel *model = [KVOModel new];
+    model.name = @"name";
+    __weak KVOModel *weakModel = model;
+    model.modelBlock = ^(){
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSLog(@" block log2 %@ ", weakModel.name);
+        });
+        __strong KVOModel *strongModel = weakModel;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSLog(@" block log %@ ", weakModel.name);   //此处，当modelblock执行完之后 model被释放，所以这个捕捉的weakmodel也为nil
+            NSLog(@" block log %@ ", strongModel.name);
+        });
+        NSLog(@" block log3 %@ ", weakModel.name);
+    };
+    model.modelBlock();
+}
+
+- (void)doSomething2{
+    NSLog(@" weakself thing ");
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     if (_delegate) {
-//        [_delegate viewDidShow];
+        //        [_delegate viewDidShow];
     }
 }
 
 #pragma Example One
 /**
-   常见的timer造成的泄露  timer强引用VC timer同时被runloop持有  在timer invalidate前self不会被释放，虽然没有循环引用  但没有释放的时机
-   解决： 在适当时候invalidate timer  或者 使用一个中间对象(SHTimer)
+ 常见的timer造成的泄露  timer强引用VC timer同时被runloop持有  在timer invalidate前self不会被释放，虽然没有循环引用  但没有释放的时机
+ 解决： 在适当时候invalidate timer  或者 使用一个中间对象(SHTimer)
  */
 - (void)leakForTimer{
     
@@ -69,18 +98,17 @@
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f repeats:YES block:^(NSTimer * _Nonnull timer) {
         NSLog(@" count %d ",num++);
         [copySelf doSomething];
-
         _modelKVO.name = @"124";
     }];
     
     
     //这种会导致self不能被释放
-//    timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(doSomething) userInfo:nil repeats:YES];
+    //    timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(doSomething) userInfo:nil repeats:YES];
     
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     
     //中间对象  不会泄露
-//    [SHTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(doSomething) userInfo:nil repeats:YES];
+    //    [SHTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(doSomething) userInfo:nil repeats:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -93,14 +121,14 @@
 #pragma Example Two
 
 /**
-   和timer类似，defaultCenter会对self持有 造成无法释放
-   解决：使用weak引用
+ 和timer类似，defaultCenter会对self持有 造成无法释放
+ 解决：使用weak引用
  */
 - (void)leakForNotification{
-//    __weak DetailViewController *copySelf = self;
-//    [[NSNotificationCenter defaultCenter] addObserverForName:@"NotificationName" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-//        [copySelf doSomething];
-//    }];
+    //    __weak DetailViewController *copySelf = self;
+    //    [[NSNotificationCenter defaultCenter] addObserverForName:@"NotificationName" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+    //        [copySelf doSomething];
+    //    }];
     
     //这种好像不会泄露？
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doSomething) name:@"NotificationName" object:nil];
@@ -126,7 +154,7 @@
     self.view.backgroundColor = [UIColor redColor];
     [self doSomething];
     _modelKVO.name = @"123";
-
+    
 }
 
 #pragma subView
@@ -142,6 +170,8 @@
     
     [_modelKVO removeObserver:self forKeyPath:@"value"];
 }
+
+
 
 
 

@@ -12,4 +12,7 @@
 
 @property(nonatomic ,copy) NSString *value;
 @property(nonatomic ,copy) NSString *name;
+
+@property (nonatomic ,strong) void(^modelBlock)();
+
 @end
